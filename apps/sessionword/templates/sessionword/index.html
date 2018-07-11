@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Session Word</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'sessionword/css/style.css' %}" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class="separator">
+      <form action='/add_word' method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="word">Add a new word</label><br>
+          <input type="text" name="content">
+        </div><br>
+        <div class="form-group">
+          <label for="color">Choose Color</label><br>
+          <label><input type="radio" name="color" value="Red"> Red</label><br>
+          <label><input type="radio" name="color" value="Green"> Green</label><br>
+          <label><input type="radio" name="color" value="Blue"checked> Blue</label>
+        </div><br>
+        <div class="form-group">
+          <input type="checkbox" name="see-big">
+          <label for="see-big">show in BIG fonts!</label>
+
+        </div><br>
+        <div class="line">{{ now }}</div>
+        <input type="submit" onclick="alert('Hello World!')" value="Add to Session">
+      </form>
+
+    </div><br>
+    <div class="separator">
+      <a href="/clear"><button type="button" name="button">Clear Session</button></a>
+      {% if request.session.words %}
+        {% for word in request.session.words %}
+          <p><span style="color:{{word.color}}" class="{{word.big}}">{{word.content}}</span>- added on {{word.created_at}}</p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+
+
+  </body>
+</html>
